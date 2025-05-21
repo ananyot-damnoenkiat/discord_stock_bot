@@ -63,14 +63,14 @@ def get_stock_data(symbol):
         logging.error(f"An unexpected error occurred while fetching quote for {symbol}: {e}")
         return None
     
-def get_company_news(symbol, day_ago=1):
+def get_company_news(symbol, days_ago=1):
     """
     Fetch company news from Finnhub.io
-    Get news for the last 'day_ago' days.
+    Get news for the last 'days_ago' days.
     """
     url = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from={datetime.now().strftime('%Y-%m-%d')}&to={datetime.now().strftime('%Y-%m-%d')}&token={FINNHUB_API_KEY}"
-    # Calculate the date 'day_ago' days ago
-    from_date = (datetime.now() - timedelta(days=day_ago)).strftime('%Y-%m-%d')
+    # Calculate the date 'days_ago' days ago
+    from_date = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
     url_history = f"https://finnhub.io/api/v1/company-news?symbol={symbol}&from={from_date}&to={datetime.now().strftime('%Y-%m-%d')}&token={FINNHUB_API_KEY}"
 
     try:
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     print("Testing Finnhub API functions...")
 
     # Check if the API key is set
-    if not FINNHUB_API_KEY or FINNHUB_API_KEY == config.FINNHUB_API_KEY:
+    if not FINNHUB_API_KEY == config.FINNHUB_API_KEY:
         print("Please set your Finnhub API key in the config.py file.")
     else:
         # Test the stock price fetching
@@ -121,7 +121,7 @@ if __name__ == "__main__":
             print("\nFailed to get AAPL quote.")
 
         # Test the news fetching
-        tsla_news = get_company_news("TSLA", day_ago=2)
+        tsla_news = get_company_news("TSLA", days_ago=2)
         if tsla_news:
             print(f"\nTSLA News ({len(tsla_news)} articles):")
             for i, article in enumerate(tsla_news[:3]): # Limit to 3 articles
