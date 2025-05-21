@@ -77,7 +77,7 @@ async def list_stocks(ctx):
         await ctx.send("ยังไม่มีหุ้นที่ติดตามอยู่ในช่องนี้")
 
 # Command for get stocks price
-@bot.command(name='quote')
+@bot.command(name='price')
 async def get_instant_quote(ctx, symbol: str):
     symbol = symbol.upper()
     
